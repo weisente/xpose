@@ -8,7 +8,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import me.ele.uetool.UETool;
+
 
 public class MainIntercept implements IXposedHookLoadPackage {
 
@@ -49,13 +49,6 @@ public class MainIntercept implements IXposedHookLoadPackage {
 
 
     private void hookcContext(ClassLoader loader){
-        XposedHelpers.findAndHookMethod(Constant.QQ_app, loader, "onCreate",new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                super.afterHookedMethod(param);
-                Log.d(TAG,"拦截 UETool" );
-//                UETool.showUETMenu();
-            }
-        });
+
     }
 }

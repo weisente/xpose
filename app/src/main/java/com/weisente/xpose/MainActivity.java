@@ -32,53 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Button wx_button = (Button) findViewById(R.id.wx_bt);
         Button qq_button = (Button) findViewById(R.id.qq_bt);
 
-        wx_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initQrData();
-                msg = Message.obtain(null,Constant.WE_GENERATE_QR);
-                msg.setData(data);
-                try {
-                    mService.send(msg);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
 
-        qq_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initQrData();
-            }
-        });
-
-
-        Intent service = new Intent();
-        service.setClassName(this, "com.weisente.xpose.CommandService");
-        bindService(service, mConnection, BIND_AUTO_CREATE);
-
-        mDefaultIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_head);
-        mReplyMessenger = new Messenger(new ClientMessengerHandler(this));
-
-    }
-
-    public void initQrData(){
-        data.putString(Constant.QR_DES,"test");
-        data.putFloat(Constant.QR_MONEY, 22.00f);
-        data.putParcelable(Constant.QR_ICON,mDefaultIcon);
-    }
-
-
-
-
-    private static class ClientMessengerHandler extends Handler{
-
-        private WeakReference<MainActivity> mActivity;
-
-        ClientMessengerHandler(MainActivity activity) {
-            mActivity = new WeakReference<>(activity);
-        }
 
 
     }
@@ -86,29 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private ServiceConnection mConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mService = new Messenger(service);
-            Message msg = Message.obtain(null, Constant.TEST_JOIN);
-            try {
-                msg.replyTo = mReplyMessenger;
-                mService.send(msg);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
 
-        }
+ ;
 
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
 
-        }
-    };
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbindService(mConnection);
-    }
 }
