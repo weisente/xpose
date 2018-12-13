@@ -15,15 +15,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import java.lang.ref.WeakReference;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    private Messenger mService;
-    private Messenger mReplyMessenger;
-    private Bitmap mDefaultIcon;
-    private Bundle data = new Bundle();
-    private Message msg;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
