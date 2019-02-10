@@ -3,6 +3,7 @@ package com.weisente.xpose;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
@@ -24,15 +25,33 @@ public class MainIntercept implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        //确定是什么包发出的请求
-        if(lpparam.packageName.equals("com.tencent.mobileqq")){
-            Log.d(TAG,"拦截 packageName: " + lpparam.packageName);
-//            hookcContext(lpparam.classLoader);
-//            hookstep(lpparam.classLoader);
+//        //确定是什么包发出的请求
+//        if(lpparam.packageName.equals("com.tencent.mobileqq")){
+//            Log.d(TAG,"拦截 packageName: " + lpparam.packageName);
+////            hookcContext(lpparam.classLoader);
+////            hookstep(lpparam.classLoader);
+////            hookwork(lpparam.classLoader);
+////            hookbitmap(lpparam.classLoader);
+//            hookShow(lpparam.classLoader);
+//        }
+        hookShow(lpparam.classLoader);
+    }
 
-//            hookwork(lpparam.classLoader);
-            hookbitmap(lpparam.classLoader);
-        }
+    private void hookShow(ClassLoader classLoader) {
+
+        XposedHelpers.findAndHookMethod("com.wingsofts.zoomimageheader.HomeActivity",
+                classLoader, "onCreate", Bundle.class, new XC_MethodHook() {
+                    @Override protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                    }
+
+                    @Override protected void afterHookedMethod(XC_MethodHook.MethodHookParam param)
+                            throws Throwable {
+                        super.afterHookedMethod(param);
+                        Toast.makeText((Context) param.thisObject, "asdasda", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 
     private void hookbitmap(ClassLoader classLoader) {
